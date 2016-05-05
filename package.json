@@ -1,0 +1,38 @@
+{
+  "name": "fs-extra-async",
+  "version": "0.0.1",
+  "description": "Node file system library and fs-extra module promisified",
+  "main": "./lib/index",
+  "author": "Overlook Motel",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gucong3000/fs-extra-async.git"
+  },
+  "bugs": {
+    "url": "https://github.com/gucong3000/fs-extra-async/issues"
+  },
+  "dependencies": {
+    "any-promise": "^1.2.0",
+    "fs-extra": "^0.30.0"
+  },
+  "devDependencies": {},
+  "keywords": [
+    "fs",
+    "fs-extra",
+    "file",
+    "promise",
+    "async",
+    "graceful-fs",
+    "any-promise",
+    "extend"
+  ],
+  "scripts": {
+    "test": "make test",
+    "cover": "make cover"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/gucong3000/fs-extra-async#readme"
+}
