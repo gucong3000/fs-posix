@@ -1,6 +1,7 @@
-# fs-extra-promise.js
+fs-extra-async
+=====
 
-# Node file system library and fs-extra module promisified
+Node file system library and fs-extra module promisified
 
 API is stable. No tests at present but it seems to work fine!
 
@@ -35,8 +36,3 @@ Detects a `Promise` implementation using [any-promise][any-promise]. If you have
 Note that `fs-extra` depends on `graceful-fs`, so you will get the benefits of both libraries.
 
 [any-promise]: https://github.com/kevinbeaty/any-promise
-[1]: https://nodejs.org/api/fs.html
-[2]: https://www.npmjs.org/package/fs-extra
-[3]: 
-[4]: https://github.com/normalize/mz
-[5]: https://github.com/thenables/thenify-all
