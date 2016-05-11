@@ -1,9 +1,9 @@
 fs-extra-async
 =====
 
-Node file system library and fs-extra module promisified
+[![Build Status](https://travis-ci.org/gucong3000/fs-extra-async.svg?branch=master)](https://travis-ci.org/gucong3000/fs-extra-async) [![NPM version](https://img.shields.io/npm/v/fs-extra-async.svg?style=flat-square)](https://www.npmjs.com/package/fs-extra-async)
 
-API is stable. No tests at present but it seems to work fine!
+Node file system library and fs-extra module promisified
 
 ## Usage
 
@@ -23,10 +23,23 @@ fs.readFile(path, function(err, data) {
 You can now:
 
 ```js
-var fs = require('fs-extra-promise');
+var fs = require('fs-extra-async');
 fs.readFileAsync(path).then(function(data) {
 	console.log(data);
 });
+```
+
+With ES2017, this will allow you to use async functions:
+
+```js
+import fs from 'fs-extra-async';
+(async function fn(args){
+	var data = await fs.readJsonAsync('data.csv');
+	await fs.outputFileAsync('/tmp/markdown/readme.md', data.readme.markdown);
+	await fs.outputFileAsync('/tmp/markdown/doc.md', data.doc.markdown);
+	await require('open')('/tmp/markdown/readme.md');
+	await fs.removeAsync('/tmp/markdown');
+})();
 ```
 
 All original `fs` and `fs-extra` methods are included unmodified.

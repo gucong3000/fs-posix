@@ -1,9 +1,9 @@
 {
   "name": "fs-extra-async",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Node file system library and fs-extra module promisified",
   "main": "./lib/index",
-  "author": "Overlook Motel",
+  "author": "gucong",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/gucong3000/fs-extra-async.git"
@@ -15,20 +15,26 @@
     "any-promise": "*",
     "fs-extra": "*"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "any-promise": "^1.3.0",
+    "istanbul": "^0.4.3",
+    "mocha": "^2.4.5"
+  },
   "keywords": [
     "fs",
     "fs-extra",
+    "graceful-fs",
     "file",
     "promise",
-    "async",
-    "graceful-fs",
+    "promisify",
     "any-promise",
+    "async",
     "extend"
   ],
   "scripts": {
-    "test": "make test",
-    "cover": "make cover"
+    "test": "mocha --reporter spec",
+    "test-cov": "istanbul cover node_modules/mocha/bin/_mocha -- --reporter dot",
+    "test-travis": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --reporter dot"
   },
   "engines": {
     "node": ">=0.10.0"
