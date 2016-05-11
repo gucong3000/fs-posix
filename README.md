@@ -34,7 +34,7 @@ With ES2017, this will allow you to use async functions:
 ```js
 import fs from 'fs-extra-async';
 (async function fn(args){
-	var data = await fs.readJsonAsync('data.csv');
+	var data = await fs.readJsonAsync('data.json');
 	await fs.outputFileAsync('/tmp/markdown/readme.md', data.readme.markdown);
 	await fs.outputFileAsync('/tmp/markdown/doc.md', data.doc.markdown);
 	await require('open')('/tmp/markdown/readme.md');

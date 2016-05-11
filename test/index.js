@@ -2,9 +2,25 @@
 /* global describe, it */
 
 /* for coverage start */
-require("any-promise");
-
 var fs = require("fs-extra");
+if (global.Promise) {
+	if (process.env.CI) {
+		try {
+			fs.removeSync(require("path").dirname(require.resolve("any-promise")));
+		} catch (ex) {
+
+		}
+		try {
+			fs.removeSync(require("path").dirname(require.resolve("bluebird")));
+		} catch (ex) {
+
+		}
+	}
+} else {
+	require("any-promise/register/bluebird");
+}
+
+
 
 function coverageFn() {
 	return "test for coverage";
@@ -57,9 +73,7 @@ describe("function test", function() {
 			assert.fail(true);
 		});
 	});
-	it("readFileAsync catch", function() {
-		/* for coverage */
-		global.Promise = undefined;
+	it("readFileAsync error catch", function() {
 		return fs.readFileAsync("./test/tmp/test.md")
 
 		.then(function() {
@@ -70,4 +84,5 @@ describe("function test", function() {
 			assert.ok(true);
 		});
 	});
+
 });
