@@ -1,7 +1,8 @@
 fs-extra-async
 =====
 
-[![Build Status](https://travis-ci.org/gucong3000/fs-extra-async.svg?branch=master)](https://travis-ci.org/gucong3000/fs-extra-async) [![NPM version](https://img.shields.io/npm/v/fs-extra-async.svg?style=flat-square)](https://www.npmjs.com/package/fs-extra-async) [![]()]()
+[![Build Status](https://travis-ci.org/gucong3000/fs-extra-async.svg?branch=master)](https://travis-ci.org/gucong3000/fs-extra-async)
+[![NPM version](https://img.shields.io/npm/v/fs-extra-async.svg?style=flat-square)](https://www.npmjs.com/package/fs-extra-async)
 [![Coverage Status](https://img.shields.io/coveralls/gucong3000/fs-extra-async.svg)](https://coveralls.io/r/gucong3000/fs-extra-async)
 
 Node file system library and fs-extra module promisified
