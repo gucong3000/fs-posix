@@ -1,6 +1,6 @@
 {
   "name": "fs-extra-async",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Node file system library and fs-extra module promisified",
   "main": "./lib/index",
   "author": "gucong",
