@@ -17,8 +17,10 @@
   "devDependencies": {
     "any-promise": "^1.3.0",
     "bluebird": "^3.3.5",
+    "coveralls": "^2.11.9",
     "istanbul": "^0.4.3",
-    "mocha": "^2.4.5"
+    "mocha": "^2.4.5",
+    "mocha-lcov-reporter": "^1.2.0"
   },
   "keywords": [
     "fs",
@@ -33,7 +35,8 @@
   ],
   "scripts": {
     "test": "mocha --reporter spec",
-    "test-cov": "istanbul cover node_modules/mocha/bin/_mocha -- --reporter dot",
+    "coveralls": "npm run test-cov && coveralls < coverage/lcov.info",
+    "test-cov": "istanbul cover node_modules/mocha/bin/_mocha -- --reporter mocha-lcov-reporter",
     "test-travis": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --reporter dot"
   },
   "engines": {
