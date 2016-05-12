@@ -5,13 +5,14 @@
 var fs = require("fs-extra");
 if (global.Promise) {
 	if (process.env.CI) {
+		var path = require("path");
 		try {
-			fs.removeSync(require("path").dirname(require.resolve("any-promise")));
+			fs.removeSync(path.dirname(require.resolve("any-promise")));
 		} catch (ex) {
 
 		}
 		try {
-			fs.removeSync(require("path").dirname(require.resolve("bluebird")));
+			fs.removeSync(path.dirname(require.resolve("bluebird")));
 		} catch (ex) {
 
 		}
@@ -19,8 +20,6 @@ if (global.Promise) {
 } else {
 	require("any-promise/register/bluebird");
 }
-
-
 
 function coverageFn() {
 	return "test for coverage";
