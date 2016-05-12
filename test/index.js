@@ -11,11 +11,6 @@ if (global.Promise) {
 		} catch (ex) {
 
 		}
-		try {
-			fs.removeSync(path.dirname(require.resolve("bluebird")));
-		} catch (ex) {
-
-		}
 	}
 } else {
 	require("any-promise/register/bluebird");
