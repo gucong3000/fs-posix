@@ -1,6 +1,6 @@
 {
   "name": "fs-extra-async",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Node file system library and fs-extra module promisified",
   "main": "./lib/index",
   "author": "gucong",
@@ -19,8 +19,7 @@
     "bluebird": "^3.3.5",
     "coveralls": "^2.11.9",
     "istanbul": "^0.4.3",
-    "mocha": "^2.4.5",
-    "mocha-lcov-reporter": "^1.2.0"
+    "mocha": "^2.4.5"
   },
   "keywords": [
     "fs",
@@ -34,10 +33,9 @@
     "extend"
   ],
   "scripts": {
-    "test": "mocha --reporter spec",
+    "test": "mocha",
     "coveralls": "npm run test-cov && coveralls < coverage/lcov.info",
-    "test-cov": "istanbul cover node_modules/mocha/bin/_mocha -- --reporter mocha-lcov-reporter",
-    "test-travis": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --reporter dot"
+    "test-cov": "istanbul cover node_modules/mocha/bin/_mocha"
   },
   "engines": {
     "node": ">=0.10.0"
