@@ -1,19 +1,12 @@
 {
-  "name": "fs-extra-async",
-  "version": "0.0.6",
-  "description": "Node file system library and fs-extra module promisified",
-  "main": "./lib/index",
   "author": "gucong",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/gucong3000/fs-extra-async.git"
-  },
   "bugs": {
     "url": "https://github.com/gucong3000/fs-extra-async/issues"
   },
   "dependencies": {
     "fs-extra": "*"
   },
+  "description": "Node file system library and fs-extra module promisified",
   "devDependencies": {
     "any-promise": "^1.3.0",
     "bluebird": "^3.3.5",
@@ -21,6 +14,10 @@
     "istanbul": "^0.4.3",
     "mocha": "^2.4.5"
   },
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "homepage": "https://github.com/gucong3000/fs-extra-async#readme",
   "keywords": [
     "fs",
     "fs-extra",
@@ -32,14 +29,17 @@
     "async",
     "extend"
   ],
+  "license": "MIT",
+  "main": "./lib/index",
+  "name": "fs-extra-async",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gucong3000/fs-extra-async.git"
+  },
   "scripts": {
-    "test": "mocha",
     "coveralls": "npm run test-cov && coveralls < coverage/lcov.info",
+    "test": "mocha",
     "test-cov": "istanbul cover node_modules/mocha/bin/_mocha"
   },
-  "engines": {
-    "node": ">=0.10.0"
-  },
-  "license": "MIT",
-  "homepage": "https://github.com/gucong3000/fs-extra-async#readme"
+  "version": "0.0.6"
 }
