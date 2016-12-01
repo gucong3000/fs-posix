@@ -7,6 +7,7 @@ coverage
 .gitignore
 .grunt
 .jshintrc
+.eslintrc.json
 .lock-wscript
 .node_repl_history
 .travis.yml
