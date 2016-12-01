@@ -13,7 +13,8 @@
     "coveralls": "^2.11.15",
     "eslint": "^3.11.1",
     "istanbul": "^0.4.5",
-    "mocha": "^3.2.0"
+    "mocha": "^3.2.0",
+    "node-version-check": "^2.1.1"
   },
   "engines": {
     "node": ">=0.10.0"
@@ -38,8 +39,9 @@
     "url": "git+https://github.com/gucong3000/fs-extra-async.git"
   },
   "scripts": {
+    "lint": "node-version-gte-4 && eslint lib/* || echo \"ESLint not supported\"",
     "coveralls": "npm run test-cov && coveralls < coverage/lcov.info",
-    "test": "eslint lib/* && mocha",
+    "test": "npm run lint && mocha",
     "test-cov": "istanbul cover node_modules/mocha/bin/_mocha"
   },
   "version": "1.0.0"
