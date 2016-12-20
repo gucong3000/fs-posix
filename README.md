@@ -2,9 +2,10 @@ fs-extra-async
 =====
 
 [![NPM version](https://img.shields.io/npm/v/fs-extra-async.svg?style=flat-square)](https://www.npmjs.com/package/fs-extra-async)
-[![Travis](https://img.shields.io/travis/gucong3000/fs-extra-async.svg?&label=Linux)](https://travis-ci.org/gucong3000/postcss-pie)
-[![AppVeyor](https://img.shields.io/appveyor/ci/gucong3000/postcss-pie.svg?&label=Windows)](https://ci.appveyor.com/project/gucong3000/postcss-pie)
-[![Coverage Status](https://img.shields.io/coveralls/gucong3000/postcss-pie.svg)](https://coveralls.io/r/gucong3000/postcss-pie)
+[![Travis](https://img.shields.io/travis/gucong3000/fs-extra-async.svg?&label=Linux)](https://travis-ci.org/gucong3000/fs-extra-async)
+[![AppVeyor](https://img.shields.io/appveyor/ci/gucong3000/fs-extra-async.svg?&label=Windows)](https://ci.appveyor.com/project/gucong3000/fs-extra-async)
+[![Coverage Status](https://img.shields.io/coveralls/gucong3000/fs-extra-async.svg)](https://coveralls.io/r/gucong3000/fs-extra-async)
+
 Node file system library and fs-extra module promisified
 
 ## Why
