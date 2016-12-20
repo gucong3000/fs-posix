@@ -9,11 +9,23 @@
 	],
 	"root": true,
 	"rules": {
+		"comma-spacing": [
+			"error",
+			{
+				"after": true,
+				"before": false
+			}
+		],
 		"indent": [
 			"error",
 			"tab",
 			{
 				"SwitchCase": 1
+			}
+		],
+		"no-console": [
+			"error",
+			{
 			}
 		],
 		"quotes": [
@@ -23,6 +35,24 @@
 				"allowTemplateLiterals": true,
 				"avoidEscape": true
 			}
+		],
+		"semi": [
+			"error",
+			"always",
+			{
+				"omitLastInOneLineBlock": false
+			}
+		],
+		"space-before-blocks": [
+			"error",
+			"always"
+		],
+		"space-infix-ops": [
+			"error"
+		],
+		"spaced-comment": [
+			"error",
+			"always"
 		],
 		"valid-jsdoc": [
 			"error",

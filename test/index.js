@@ -2,51 +2,48 @@
 /* global describe, it */
 
 /* for coverage start */
-var fs = require("fs-extra");
+var fs = require("fs");
 if (global.Promise) {
 	if (process.env.CI) {
 		var path = require("path");
 		try {
 			fs.removeSync(path.dirname(require.resolve("any-promise")));
 		} catch (ex) {
-
+			//
 		}
 	}
 } else {
 	require("any-promise/register/bluebird");
 }
 
-function coverageFn() {
-	return "test for coverage";
-}
-
-fs.test = coverageFn;
-fs.testSync = coverageFn;
-fs.testAsync = coverageFn;
-fs.test2Async = coverageFn;
-
 var assert = require("assert");
 
 /* for coverage end */
 
-fs = require("..");
+require("../lib/polyfill");
 
-describe("fs functions", function() {
-	function test(fnName) {
-		it(fnName, function() {
-			assert.equal(/\breturn\s+new\s+Promise\b/.test(fs[fnName].toString()), true);
+
+describe("POSIX", function() {
+	it("/etc/profile", function() {
+		return fs.readFile("/etc/profile")
+
+		.then(function(contents) {
+			assert.ok(contents.toString());
 		});
-	}
-	for (var fnName in fs) {
-		if (/Async$/.test(fnName) && fs[fnName] !== coverageFn) {
-			test(fnName);
-		}
-	}
+	});
+
+	it("/etc/hosts", function() {
+		return fs.readFile("/etc/hosts")
+
+		.then(function(contents) {
+			assert.ok(contents.toString());
+		});
+	});
 });
 
 describe("function test", function() {
-	it("outputFileAsync", function() {
-		return fs.outputFileAsync("./test/tmp/test.md", "test")
+	it("fs.outputFile", function() {
+		return fs.outputFile("./test/tmp/test.md", "test")
 
 		.then(function() {
 			assert.equal(fs.readFileSync("./test/tmp/test.md"), "test");
@@ -56,8 +53,8 @@ describe("function test", function() {
 			assert.fail(true);
 		});
 	});
-	it("removeAsync", function() {
-		return fs.removeAsync("./test/tmp")
+	it("fs.remove", function() {
+		return fs.remove("./test/tmp")
 
 		.then(function() {
 			assert.ok(true);
@@ -67,8 +64,8 @@ describe("function test", function() {
 			assert.fail(true);
 		});
 	});
-	it("readFileAsync error catch", function() {
-		return fs.readFileAsync("./test/tmp/test.md")
+	it("fs.readFile error catch", function() {
+		return fs.readFile("./test/tmp/test.md")
 
 		.then(function() {
 			assert.fail(true);
@@ -78,5 +75,4 @@ describe("function test", function() {
 			assert.ok(true);
 		});
 	});
-
 });
