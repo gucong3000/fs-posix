@@ -40,7 +40,7 @@
   "main": "./lib/index",
   "name": "fs-extra-async",
   "optionalDependencies": {
-    "git-win": "^1.0.6"
+    "git-win": "^1.0.2"
   },
   "repository": {
     "type": "git",
