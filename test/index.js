@@ -39,6 +39,13 @@ describe('POSIX', function() {
 			assert.ok(contents.toString());
 		});
 	});
+	it('~', function() {
+		return fs.readdir('~')
+
+		.then(function(files) {
+			assert.ok(Array.isArray(files));
+		});
+	});
 });
 
 describe('function test', function() {
