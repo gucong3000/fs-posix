@@ -33,6 +33,7 @@
     "promise",
     "promisify",
     "any-promise",
+    "posix",
     "async",
     "extend"
   ],

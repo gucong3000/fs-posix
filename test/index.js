@@ -20,7 +20,7 @@ var assert = require('assert');
 
 /* for coverage end */
 
-require('../lib/polyfill');
+require('../lib/patch');
 
 
 describe('POSIX', function() {

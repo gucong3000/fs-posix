@@ -25,11 +25,9 @@ npm install --save fs-extra-async
 ## Usage
 
 ```js
-require('fs-extra-async/lib/polyfill');
+require('fs-extra-async/lib/patch');
 var fs = require('fs');
-fs.readFile("/etc/profile").then(function(data) {
-	console.log(data.toString());
-});
+fs.readFile('README.md', 'utf8').then(data => console.log(data));
 ```
 
 Detects a `Promise` implementation using [any-promise][any-promise]. If you have a preferred implementation, or are working in an environment without a global implementation, you must explicitly register a `Promise` implementation and it will be used. See [any-promise][any-promise] for details.
@@ -37,3 +35,33 @@ Detects a `Promise` implementation using [any-promise][any-promise]. If you have
 Note that `fs-extra` depends on `graceful-fs`, so you will get the benefits of both libraries.
 
 [any-promise]: https://github.com/kevinbeaty/any-promise
+
+## Methods
+
+- [copy](https://github.com/jprichardson/node-fs-extra/#copy)
+- [copySync](https://github.com/jprichardson/node-fs-extra/#copy)
+- [emptyDir](https://github.com/jprichardson/node-fs-extra/#emptydirdir-callback)
+- [emptyDirSync](https://github.com/jprichardson/node-fs-extra/#emptydirdir-callback)
+- [ensureFile](https://github.com/jprichardson/node-fs-extra/#ensurefilefile-callback)
+- [ensureFileSync](https://github.com/jprichardson/node-fs-extra/#ensurefilefile-callback)
+- [ensureDir](https://github.com/jprichardson/node-fs-extra/#ensuredirdir-callback)
+- [ensureDirSync](https://github.com/jprichardson/node-fs-extra/#ensuredirdir-callback)
+- [ensureLink](https://github.com/jprichardson/node-fs-extra/#ensurelinksrcpath-dstpath-callback)
+- [ensureLinkSync](https://github.com/jprichardson/node-fs-extra/#ensurelinksrcpath-dstpath-callback)
+- [ensureSymlink](https://github.com/jprichardson/node-fs-extra/#ensuresymlinksrcpath-dstpath-type-callback)
+- [ensureSymlinkSync](https://github.com/jprichardson/node-fs-extra/#ensuresymlinksrcpath-dstpath-type-callback)
+- [mkdirs](https://github.com/jprichardson/node-fs-extra/#mkdirsdir-callback)
+- [mkdirsSync](https://github.com/jprichardson/node-fs-extra/#mkdirsdir-callback)
+- [move](https://github.com/jprichardson/node-fs-extra/#movesrc-dest-options-callback)
+- [outputFile](https://github.com/jprichardson/node-fs-extra/#outputfilefile-data-options-callback)
+- [outputFileSync](https://github.com/jprichardson/node-fs-extra/#outputfilefile-data-options-callback)
+- [outputJson](https://github.com/jprichardson/node-fs-extra/#outputjsonfile-data-options-callback)
+- [outputJsonSync](https://github.com/jprichardson/node-fs-extra/#outputjsonfile-data-options-callback)
+- [readJson](https://github.com/jprichardson/node-fs-extra/#readjsonfile-options-callback)
+- [readJsonSync](https://github.com/jprichardson/node-fs-extra/#readjsonfile-options-callback)
+- [remove](https://github.com/jprichardson/node-fs-extra/#removedir-callback)
+- [removeSync](https://github.com/jprichardson/node-fs-extra/#removedir-callback)
+- [walk](https://github.com/jprichardson/node-fs-extra/#walk)
+- [walkSync](https://github.com/jprichardson/node-fs-extra/#walksyncdir)
+- [writeJson](https://github.com/jprichardson/node-fs-extra/#writejsonfile-object-options-callback)
+- [writeJsonSync](https://github.com/jprichardson/node-fs-extra/#writejsonfile-object-options-callback)
