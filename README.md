@@ -27,7 +27,7 @@ npm install --save fs-extra-async
 ```js
 require('fs-extra-async/lib/patch');
 var fs = require('fs');
-fs.readFile('README.md', 'utf8').then(data => console.log(data));
+fs.readFile('/etc/hosts', 'utf8').then(data => console.log(data));
 ```
 
 Detects a `Promise` implementation using [any-promise][any-promise]. If you have a preferred implementation, or are working in an environment without a global implementation, you must explicitly register a `Promise` implementation and it will be used. See [any-promise][any-promise] for details.
