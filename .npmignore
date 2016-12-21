@@ -9,6 +9,7 @@
 .node_repl_history
 .stylelintrc*
 .travis.yml
+.vscode
 appveyor.yml
 coverage
 gulpfile.js
@@ -18,3 +19,4 @@ node_modules
 npm-debug.log*
 pids
 test
+bin
