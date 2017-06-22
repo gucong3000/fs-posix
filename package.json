@@ -1,29 +1,26 @@
 {
   "author": "gucong",
   "bugs": {
-    "url": "https://github.com/gucong3000/fs-extra-async/issues"
+    "url": "https://github.com/gucong3000/fs-posix/issues"
   },
   "dependencies": {
-    "fs-extra": "*",
+    "fs-extra": ">=3.0.0",
     "os-homedir": "^1.0.2"
   },
   "description": "Node file system library and fs-extra module promisified",
   "devDependencies": {
-    "any-promise": "^1.3.0",
-    "bluebird": "^3.5.0",
-    "cover": "^0.2.9",
     "coveralls": "^2.13.1",
     "eslint": "^4.0.0",
-    "istanbul": "^0.4.5",
-    "mocha": "^3.4.2"
+    "mocha": "^3.4.2",
+    "nyc": "^11.0.2"
   },
   "directories": {
     "test": "test"
   },
   "engines": {
-    "node": ">=0.10.0"
+    "node": ">=6.0.0"
   },
-  "homepage": "https://github.com/gucong3000/fs-extra-async#readme",
+  "homepage": "https://github.com/gucong3000/fs-posix#readme",
   "keywords": [
     "fs",
     "fs-extra",
@@ -38,19 +35,18 @@
   ],
   "license": "MIT",
   "main": "./lib/index",
-  "name": "fs-extra-async",
+  "name": "fs-posix",
   "optionalDependencies": {
     "git-win": "^1.2.1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gucong3000/fs-extra-async.git"
+    "url": "https://github.com/gucong3000/fs-posix.git"
   },
   "scripts": {
-    "coveralls": "npm run test-cov && coveralls < coverage/lcov.info",
+    "coveralls": "coveralls < coverage/lcov.info",
     "pretest": "eslint lib/*.js",
-    "test": "mocha",
-    "test-cov": "istanbul cover node_modules/mocha/bin/_mocha"
+    "test": "nyc mocha"
   },
-  "version": "2.0.3"
+  "version": "3.0.0"
 }
