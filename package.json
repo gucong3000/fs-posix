@@ -1,5 +1,10 @@
 {
   "author": "gucong",
+  "babel": {
+    "presets": [
+      "env"
+    ]
+  },
   "bugs": {
     "url": "https://github.com/gucong3000/fs-posix/issues"
   },
@@ -9,6 +14,9 @@
   },
   "description": "Node file system library and fs-extra module promisified",
   "devDependencies": {
+    "babel-polyfill": "^6.23.0",
+    "babel-preset-env": "^1.5.2",
+    "babel-register": "^6.24.1",
     "coveralls": "^2.13.1",
     "eslint": "^4.0.0",
     "eslint-config-standard": "^10.2.1",
@@ -51,7 +59,7 @@
   "scripts": {
     "coveralls": "coveralls < coverage/lcov.info",
     "pretest": "eslint lib/*.js",
-    "test": "nyc mocha"
+    "test": "nyc mocha --compilers js:babel-register --require babel-polyfill"
   },
   "version": "3.0.0"
 }

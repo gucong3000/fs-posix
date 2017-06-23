@@ -6,54 +6,39 @@ var assert = require('assert')
 
 require('../lib/patch')
 
-describe('POSIX', function () {
-  it('/etc/profile', function () {
-    return fs.readFile('/etc/profile')
-      .then(function (contents) {
-        assert.ok(contents.toString())
-      })
+describe('POSIX', () => {
+  it('/etc/profile', async () => {
+    const contents = await fs.readFile('/etc/profile')
+    assert.ok(contents.toString())
   })
 
-  it('/etc/hosts', function () {
-    return fs.readFile('/etc/hosts')
-      .then(function (contents) {
-        assert.ok(contents.toString())
-      })
+  it('/etc/hosts', async () => {
+    const contents = await fs.readFile('/etc/hosts')
+    assert.ok(contents.toString())
   })
-  it('~', function () {
-    return fs.readdir('~')
-      .then(function (files) {
-        assert.ok(Array.isArray(files))
-      })
+
+  it('~', async () => {
+    const files = await fs.readdir('~')
+    assert.ok(Array.isArray(files))
   })
 })
 
-describe('function test', function () {
-  it('fs.outputFile', function () {
-    return fs.outputFile('./test/tmp/test.md', 'test')
-      .then(function () {
-        assert.equal(fs.readFileSync('./test/tmp/test.md'), 'test')
-      })
-      .catch(function () {
-        assert.fail(true)
-      })
+describe('function test', () => {
+  it('fs.outputFile', async () => {
+    await fs.outputFile('./test/tmp/test.md', 'test')
+    assert.equal(fs.readFileSync('./test/tmp/test.md'), 'test')
   })
-  it('fs.remove', function () {
-    return fs.remove('./test/tmp')
-      .then(function () {
-        assert.ok(true)
-      })
-      .catch(function () {
-        assert.fail(true)
-      })
+  it('fs.remove', async () => {
+    await fs.remove('./test/tmp')
+    assert.ok(!fs.existsSync('./test/tmp'))
   })
-  it('fs.readFile error catch', function () {
-    return fs.readFile('./test/tmp/test.md')
-      .then(function () {
-        assert.fail(true)
-      })
-      .catch(function () {
-        assert.ok(true)
-      })
+  it('fs.readFile error catch', async () => {
+    try {
+      await fs.readFile('./test/tmp/test.md')
+      assert.fail(true)
+    } catch (ex) {
+      assert.ok(ex)
+    }
   })
 })
+// fs.mkdtemp(prefix[, options], callback)
