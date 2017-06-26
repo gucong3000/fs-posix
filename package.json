@@ -49,6 +49,12 @@
   "license": "MIT",
   "main": "./lib/index",
   "name": "fs-posix",
+  "nyc": {
+    "reporter": [
+      "lcov",
+      "text"
+    ]
+  },
   "optionalDependencies": {
     "git-win": "^1.2.1"
   },
