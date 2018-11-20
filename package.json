@@ -1,31 +1,24 @@
 {
   "author": "gucong",
-  "babel": {
-    "presets": [
-      "env"
-    ]
-  },
   "bugs": {
     "url": "https://github.com/gucong3000/fs-posix/issues"
   },
   "dependencies": {
-    "fs-extra": ">=3.0.1",
-    "os-homedir": "^1.0.2"
+    "fs-extra": ">=7.0.1"
   },
   "description": "Node file system library and fs-extra module promisified",
   "devDependencies": {
-    "babel-polyfill": "^6.23.0",
-    "babel-preset-env": "^1.5.2",
-    "babel-register": "^6.24.1",
-    "coveralls": "^2.13.1",
-    "eslint": "^4.1.1",
-    "eslint-config-standard": "^10.2.1",
-    "eslint-plugin-import": "^2.6.0",
-    "eslint-plugin-node": "^5.1.0",
-    "eslint-plugin-promise": "^3.5.0",
-    "eslint-plugin-standard": "^3.0.1",
-    "mocha": "^3.4.2",
-    "nyc": "^11.0.2"
+    "codecov": "^3.1.0",
+    "eclint": "^2.8.1",
+    "eslint": "^5.9.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-node": "^8.0.0",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "exec-extra": "^2.5.0",
+    "mocha": "^5.2.0",
+    "nyc": "^13.1.0"
   },
   "directories": {
     "test": "test"
@@ -56,16 +49,18 @@
     ]
   },
   "optionalDependencies": {
-    "git-win": "^1.2.1"
+    "git-win": "^2.1.0"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/gucong3000/fs-posix.git"
   },
   "scripts": {
-    "coveralls": "coveralls < coverage/lcov.info",
-    "pretest": "eslint lib/*.js",
-    "test": "nyc mocha --compilers js:babel-register --require babel-polyfill"
+    "report-coverage": "codecov",
+    "lint:eclint": "eclint check $(git ls-files | tee /tmp/git-files)",
+    "lint:eslint": "eslint $(grep \"\\.js$\" /tmp/git-files)",
+    "pretest": "npm run lint:eclint && npm run lint:eslint",
+    "test": "nyc mocha"
   },
   "version": "3.0.0"
 }

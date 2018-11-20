@@ -1,8 +1,8 @@
-sudo: false
+dist: trusty
+sudo: required
 language: node_js
 node_js:
   - "stable"
-  - "7"
-  - "6"
+  - "--lts"
 after_success:
-  - "npm run coveralls"
+  - npm run report-coverage

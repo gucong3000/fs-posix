@@ -4,7 +4,8 @@ fs-posix
 [![NPM version](https://img.shields.io/npm/v/fs-posix.svg?style=flat-square)](https://www.npmjs.com/package/fs-posix)
 [![Travis](https://img.shields.io/travis/gucong3000/fs-posix.svg?&label=Linux)](https://travis-ci.org/gucong3000/fs-posix)
 [![AppVeyor](https://img.shields.io/appveyor/ci/gucong3000/fs-posix.svg?&label=Windows)](https://ci.appveyor.com/project/gucong3000/fs-posix)
-[![Coverage Status](https://img.shields.io/coveralls/gucong3000/fs-posix.svg)](https://coveralls.io/r/gucong3000/fs-posix)
+[![Codecov](https://img.shields.io/codecov/c/github/gucong3000/fs-posix.svg)](https://codecov.io/gh/gucong3000/fs-posix)
+[![David](https://img.shields.io/david/gucong3000/fs-posix.svg)](https://david-dm.org/gucong3000/fs-posix)
 
 Node file system library and fs-extra module promisified
 
@@ -26,15 +27,11 @@ npm install --save fs-posix
 
 ```js
 require('fs-posix/lib/patch');
-var fs = require('fs');
-fs.readFile('/etc/hosts', 'utf8').then(data => console.log(data));
+const fs = require('fs');
+fs.readFile('/etc/hosts', 'utf8').then(console.log);
 ```
 
-Detects a `Promise` implementation using [any-promise][any-promise]. If you have a preferred implementation, or are working in an environment without a global implementation, you must explicitly register a `Promise` implementation and it will be used. See [any-promise][any-promise] for details.
-
 Note that `fs-extra` depends on `graceful-fs`, so you will get the benefits of both libraries.
-
-[any-promise]: https://github.com/kevinbeaty/any-promise
 
 ## Methods
 
