@@ -22,7 +22,7 @@ describe("POSIX", () => {
 	});
 
 	const drivers = path.join(
-		process.env.windir || process.env.SystemRoot || "C:\\Windows",
+		process.env.windir || process.env.SystemRoot || "C:/Windows",
 		"System32/drivers"
 	);
 
