@@ -26,15 +26,11 @@ npm install --save fs-posix
 
 ```js
 require('fs-posix/lib/patch');
-var fs = require('fs');
-fs.readFile('/etc/hosts', 'utf8').then(data => console.log(data));
+const fs = require('fs');
+fs.readFile('/etc/hosts', 'utf8').then(console.log);
 ```
 
-Detects a `Promise` implementation using [any-promise][any-promise]. If you have a preferred implementation, or are working in an environment without a global implementation, you must explicitly register a `Promise` implementation and it will be used. See [any-promise][any-promise] for details.
-
 Note that `fs-extra` depends on `graceful-fs`, so you will get the benefits of both libraries.
-
-[any-promise]: https://github.com/kevinbeaty/any-promise
 
 ## Methods
 
