@@ -21,6 +21,11 @@ describe("POSIX", () => {
 		process.env = env;
 	});
 
+	const drivers = path.join(
+		process.env.windir || process.env.SystemRoot || "C:\\Windows",
+		"System32/drivers"
+	);
+
 	[
 		"/etc/hosts",
 		"/etc/networks",
@@ -32,7 +37,7 @@ describe("POSIX", () => {
 			assert.ok((await fs.stat(file)).isFile());
 			assert.ok(fs.statSync(file).isFile());
 			const realPath = process.platform === "win32"
-				? path.join("C:/Windows/System32/drivers", file)
+				? path.join(drivers, file)
 				: file;
 			assert.strictEqual(await fs.realpath(file), realPath);
 			assert.strictEqual(fs.realpathSync(file), realPath);
