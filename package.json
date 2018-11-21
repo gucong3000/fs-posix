@@ -40,7 +40,7 @@
     "extend"
   ],
   "license": "MIT",
-  "main": "./lib/index",
+  "main": "lib/index",
   "name": "fs-posix",
   "nyc": {
     "reporter": [
@@ -49,7 +49,7 @@
     ]
   },
   "optionalDependencies": {
-    "git-win": "^2.1.0"
+    "git-win": "^2.2.0"
   },
   "repository": {
     "type": "git",
@@ -62,5 +62,5 @@
     "pretest": "npm run lint:eclint && npm run lint:eslint",
     "test": "nyc mocha"
   },
-  "version": "3.0.0"
+  "version": "4.0.0"
 }

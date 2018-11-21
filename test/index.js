@@ -30,6 +30,7 @@ describe("POSIX", () => {
 		"/etc/hosts",
 		"/etc/networks",
 		"/etc/services",
+		"/etc/protocols",
 	].forEach(file => {
 		it(file, async () => {
 			assert.ok(await fs.readFile(file));
@@ -37,7 +38,7 @@ describe("POSIX", () => {
 			assert.ok((await fs.stat(file)).isFile());
 			assert.ok(fs.statSync(file).isFile());
 			const realPath = process.platform === "win32"
-				? path.join(drivers, file)
+				? path.join(drivers, file === "/etc/protocols" ? "etc/protocol" : file)
 				: file;
 			assert.strictEqual(await fs.realpath(file), realPath);
 			assert.strictEqual(fs.realpathSync(file), realPath);
@@ -78,6 +79,46 @@ describe("POSIX", () => {
 			process.env = {};
 			assert.strictEqual(await fs.realpath(dir), realPath);
 			assert.strictEqual(fs.realpathSync(dir), realPath);
+		});
+	});
+});
+
+if (process.platform === "win32" || /\bMicrosoft\b/.test(os.release())) {
+	describe("WIN32 path", () => {
+		[
+			"C:\\Windows",
+			"C:/Windows",
+			"C:/Windows/",
+			"C:\\Users",
+			"C:/Users/",
+			"C:/Users",
+			"C:\\",
+			"C:/",
+		].forEach((dir) => {
+			it(dir, async () => {
+				assert.ok((await fs.stat(dir)).isDirectory());
+				assert.ok(fs.statSync(dir).isDirectory());
+				assert.ok(Array.isArray(await fs.readdir(dir)));
+				assert.ok(Array.isArray(fs.readdirSync(dir)));
+				let realPath = path.win32.resolve(dir);
+				if (process.platform !== "win32") {
+					realPath = path.posix.resolve("/mnt", realPath[0].toLowerCase(), realPath.slice(3).replace(/\\/g, "/"));
+				}
+				assert.strictEqual(await fs.realpath(dir), realPath);
+				assert.strictEqual(fs.realpathSync(dir), realPath);
+			});
+		});
+	});
+}
+
+describe("path-posix", () => {
+	const pathPosix = require("../lib/path-posix");
+	[
+		"%test%/test",
+		"./~/test",
+	].forEach((strPath) => {
+		it(strPath, async () => {
+			assert.strictEqual(path.resolve(pathPosix(strPath)), path.resolve(strPath));
 		});
 	});
 });
