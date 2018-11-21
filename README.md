@@ -11,9 +11,9 @@ Node file system library and fs-extra module promisified
 
 ## Why
 
-- Support [POSIX](https://en.wikipedia.org/wiki/POSIX) file path cross platform.
+- Support [POSIX](https://en.wikipedia.org/wiki/POSIX) style path cross platform.
+- Support Windows style path for [WSL](https://docs.microsoft.com/windows/wsl).
 - Support Promise syntax or async function.
-- Support node native syntax.
 - All original `fs` and `fs-extra` methods are included.
 
 
