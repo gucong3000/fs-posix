@@ -1,7 +1,10 @@
 *.log
 *.pid
 *.seed
+*.tgz
+.circleci
 .editorconfig
+.babelrc
 .eslintrc*
 .gitignore
 .grunt
@@ -20,4 +23,4 @@ node_modules
 npm-debug.log*
 pids
 test
-bin
+src

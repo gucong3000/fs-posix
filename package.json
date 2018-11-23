@@ -3,11 +3,11 @@
   "bugs": {
     "url": "https://github.com/gucong3000/fs-posix/issues"
   },
-  "dependencies": {
-    "fs-extra": ">=7.0.1"
-  },
-  "description": "Node file system library and fs-extra module promisified",
+  "description": "Add cross-platform path support for Node file system",
   "devDependencies": {
+    "@babel/cli": "^7.1.5",
+    "@babel/core": "^7.1.6",
+    "@babel/preset-env": "^7.1.6",
     "codecov": "^3.1.0",
     "eclint": "^2.8.1",
     "eslint": "^5.9.0",
@@ -16,7 +16,7 @@
     "eslint-plugin-node": "^8.0.0",
     "eslint-plugin-promise": "^4.0.1",
     "eslint-plugin-standard": "^4.0.0",
-    "exec-extra": "^2.5.0",
+    "fs-extra": "^7.0.1",
     "mocha": "^5.2.0",
     "nyc": "^13.1.0"
   },
@@ -29,15 +29,12 @@
   "homepage": "https://github.com/gucong3000/fs-posix#readme",
   "keywords": [
     "fs",
-    "fs-extra",
-    "graceful-fs",
     "file",
-    "promise",
-    "promisify",
-    "any-promise",
     "posix",
-    "async",
-    "extend"
+    "WSL",
+    "git",
+    "mount",
+    "cross-platform"
   ],
   "license": "MIT",
   "main": "lib/index",
@@ -49,7 +46,7 @@
     ]
   },
   "optionalDependencies": {
-    "git-win": "^2.2.0"
+    "git-win": "^2.2.3"
   },
   "repository": {
     "type": "git",
@@ -57,10 +54,13 @@
   },
   "scripts": {
     "report-coverage": "codecov",
+    "build": "rm -rf lib *.tgz && babel src --out-dir lib",
+    "prepare": "npm run build",
     "lint:eclint": "eclint check $(git ls-files | tee /tmp/git-files)",
     "lint:eslint": "eslint $(grep \"\\.js$\" /tmp/git-files)",
     "pretest": "npm run lint:eclint && npm run lint:eslint",
-    "test": "nyc mocha"
+    "test": "npm run unit",
+    "unit": "nyc mocha"
   },
-  "version": "4.0.0"
+  "version": "5.0.0"
 }
