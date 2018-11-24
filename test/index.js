@@ -1,16 +1,16 @@
 "use strict";
+require("../src");
 const assert = require("assert");
 const path = require("path");
 const os = require("os");
-const fs = require("fs");
+const fs = require("fs-extra");
+
 let gitWin;
 try {
 	gitWin = require("git-win");
 } catch (ex) {
 	//
 }
-
-require("../lib/patch");
 
 describe("POSIX", () => {
 	let env;
@@ -33,35 +33,34 @@ describe("POSIX", () => {
 		"/etc/protocols",
 	].forEach(file => {
 		it(file, async () => {
+			assert.ok(fs.readFileSync(file));
 			assert.ok(await fs.readFile(file));
-			assert.ok(await fs.readFileSync(file));
-			assert.ok((await fs.stat(file)).isFile());
 			assert.ok(fs.statSync(file).isFile());
+			assert.ok((await fs.stat(file)).isFile());
 			const realPath = process.platform === "win32"
 				? path.join(drivers, file === "/etc/protocols" ? "etc/protocol" : file)
 				: file;
-			assert.strictEqual(await fs.realpath(file), realPath);
 			assert.strictEqual(fs.realpathSync(file), realPath);
+			assert.strictEqual(await fs.realpath(file), realPath);
 			process.env = {};
-			assert.strictEqual(await fs.realpath(file), realPath);
 			assert.strictEqual(fs.realpathSync(file), realPath);
+			assert.strictEqual(await fs.realpath(file), realPath);
 		});
 	});
-
 	[
 		"/etc/profile",
 		"/etc/fstab",
 	].forEach(file => {
 		it(file, async () => {
+			assert.ok(fs.readFileSync(file));
 			assert.ok(await fs.readFile(file));
-			assert.ok(await fs.readFileSync(file));
-			assert.ok((await fs.stat(file)).isFile());
 			assert.ok(fs.statSync(file).isFile());
+			assert.ok((await fs.stat(file)).isFile());
 			const realPath = process.platform === "win32"
 				? path.join(gitWin.root, file)
 				: file;
-			assert.strictEqual(await fs.realpath(file), realPath);
 			assert.strictEqual(fs.realpathSync(file), realPath);
+			assert.strictEqual(await fs.realpath(file), realPath);
 		});
 	});
 
@@ -70,15 +69,15 @@ describe("POSIX", () => {
 		["/tmp", os.tmpdir()],
 	].forEach(([dir, realPath]) => {
 		it(dir, async () => {
-			assert.ok((await fs.stat(dir)).isDirectory());
 			assert.ok(fs.statSync(dir).isDirectory());
-			assert.ok(Array.isArray(await fs.readdir(dir)));
+			assert.ok((await fs.stat(dir)).isDirectory());
 			assert.ok(Array.isArray(fs.readdirSync(dir)));
-			assert.strictEqual(await fs.realpath(dir), realPath);
+			assert.ok(Array.isArray(await fs.readdir(dir)));
 			assert.strictEqual(fs.realpathSync(dir), realPath);
+			assert.strictEqual(await fs.realpath(dir), realPath);
 			process.env = {};
-			assert.strictEqual(await fs.realpath(dir), realPath);
 			assert.strictEqual(fs.realpathSync(dir), realPath);
+			assert.strictEqual(await fs.realpath(dir), realPath);
 		});
 	});
 });
@@ -96,23 +95,30 @@ if (process.platform === "win32" || /\bMicrosoft\b/.test(os.release())) {
 			"C:/",
 		].forEach((dir) => {
 			it(dir, async () => {
-				assert.ok((await fs.stat(dir)).isDirectory());
 				assert.ok(fs.statSync(dir).isDirectory());
-				assert.ok(Array.isArray(await fs.readdir(dir)));
+				assert.ok((await fs.stat(dir)).isDirectory());
 				assert.ok(Array.isArray(fs.readdirSync(dir)));
+				assert.ok(Array.isArray(await fs.readdir(dir)));
 				let realPath = path.win32.resolve(dir);
 				if (process.platform !== "win32") {
 					realPath = path.posix.resolve("/mnt", realPath[0].toLowerCase(), realPath.slice(3).replace(/\\/g, "/"));
 				}
-				assert.strictEqual(await fs.realpath(dir), realPath);
 				assert.strictEqual(fs.realpathSync(dir), realPath);
+				assert.strictEqual(await fs.realpath(dir), realPath);
 			});
+		});
+		it("\\", () => {
+			if (process.platform === "win32") {
+				assert.ok(/^[A-Z]:\\$/i.test(fs.realpathSync("\\")));
+			} else {
+				assert.ok(/^\/mnt\/[a-z]$/.test(fs.realpathSync("\\")));
+			}
 		});
 	});
 }
 
 describe("path-posix", () => {
-	const pathPosix = require("../lib/path-posix");
+	const pathPosix = require("../src/path-posix");
 	[
 		"%test%/test",
 		"./~/test",

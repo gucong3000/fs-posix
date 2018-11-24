@@ -7,15 +7,16 @@ fs-posix
 [![Codecov](https://img.shields.io/codecov/c/github/gucong3000/fs-posix.svg)](https://codecov.io/gh/gucong3000/fs-posix)
 [![David](https://img.shields.io/david/gucong3000/fs-posix.svg)](https://david-dm.org/gucong3000/fs-posix)
 
-Node file system library and fs-extra module promisified
+Add cross-platform path support for Node file system.
 
 ## Why
 
-- Support [POSIX](https://en.wikipedia.org/wiki/POSIX) style path cross platform.
-- Support Windows style path for [WSL](https://docs.microsoft.com/windows/wsl).
-- Support Promise syntax or async function.
-- All original `fs` and `fs-extra` methods are included.
-
+- Add [POSIX](https://en.wikipedia.org/wiki/POSIX) style path support for Windows.
+  - POSIX style root path will be convert to Git install directory.
+  - Support for [the Cygwin mount table](https://cygwin.com/cygwin-ug-net/using.html#mount-table).
+  - Support for [The cygdrive path prefix](https://cygwin.com/cygwin-ug-net/using.html#cygdrive).
+- Add Windows style path support for [WSL](https://docs.microsoft.com/windows/wsl).
+- Add tilde path prefix support.
 
 ## Install
 
@@ -26,39 +27,9 @@ npm install --save fs-posix
 ## Usage
 
 ```js
-require('fs-posix/lib/patch');
-const fs = require('fs');
-fs.readFile('/etc/hosts', 'utf8').then(console.log);
+require("fs-posix");              // Must load before `fs-extra`
+const fs = require("fs");
+fs.readFileSync("~/.npmrc");      // Returns the contents of `.npmrc` in home folder
+fs.readFileSync("/etc/hosts");    // Returns the contents of `hosts` in etc folder
+fs.readFileSync("/tmp/test.log")  // Returns the contents of `test.log` in temp folder
 ```
-
-Note that `fs-extra` depends on `graceful-fs`, so you will get the benefits of both libraries.
-
-## Methods
-
-- [copy](https://github.com/jprichardson/node-fs-extra/#copy)
-- [copySync](https://github.com/jprichardson/node-fs-extra/#copy)
-- [emptyDir](https://github.com/jprichardson/node-fs-extra/#emptydirdir-callback)
-- [emptyDirSync](https://github.com/jprichardson/node-fs-extra/#emptydirdir-callback)
-- [ensureFile](https://github.com/jprichardson/node-fs-extra/#ensurefilefile-callback)
-- [ensureFileSync](https://github.com/jprichardson/node-fs-extra/#ensurefilefile-callback)
-- [ensureDir](https://github.com/jprichardson/node-fs-extra/#ensuredirdir-callback)
-- [ensureDirSync](https://github.com/jprichardson/node-fs-extra/#ensuredirdir-callback)
-- [ensureLink](https://github.com/jprichardson/node-fs-extra/#ensurelinksrcpath-dstpath-callback)
-- [ensureLinkSync](https://github.com/jprichardson/node-fs-extra/#ensurelinksrcpath-dstpath-callback)
-- [ensureSymlink](https://github.com/jprichardson/node-fs-extra/#ensuresymlinksrcpath-dstpath-type-callback)
-- [ensureSymlinkSync](https://github.com/jprichardson/node-fs-extra/#ensuresymlinksrcpath-dstpath-type-callback)
-- [mkdirs](https://github.com/jprichardson/node-fs-extra/#mkdirsdir-callback)
-- [mkdirsSync](https://github.com/jprichardson/node-fs-extra/#mkdirsdir-callback)
-- [move](https://github.com/jprichardson/node-fs-extra/#movesrc-dest-options-callback)
-- [outputFile](https://github.com/jprichardson/node-fs-extra/#outputfilefile-data-options-callback)
-- [outputFileSync](https://github.com/jprichardson/node-fs-extra/#outputfilefile-data-options-callback)
-- [outputJson](https://github.com/jprichardson/node-fs-extra/#outputjsonfile-data-options-callback)
-- [outputJsonSync](https://github.com/jprichardson/node-fs-extra/#outputjsonfile-data-options-callback)
-- [readJson](https://github.com/jprichardson/node-fs-extra/#readjsonfile-options-callback)
-- [readJsonSync](https://github.com/jprichardson/node-fs-extra/#readjsonfile-options-callback)
-- [remove](https://github.com/jprichardson/node-fs-extra/#removedir-callback)
-- [removeSync](https://github.com/jprichardson/node-fs-extra/#removedir-callback)
-- [walk](https://github.com/jprichardson/node-fs-extra/#walk)
-- [walkSync](https://github.com/jprichardson/node-fs-extra/#walksyncdir)
-- [writeJson](https://github.com/jprichardson/node-fs-extra/#writejsonfile-object-options-callback)
-- [writeJsonSync](https://github.com/jprichardson/node-fs-extra/#writejsonfile-object-options-callback)
