@@ -6,6 +6,7 @@ build: off
 environment:
   matrix:
     - nodejs_version: stable
+    - nodejs_version: 8
 
 platform:
   - x64

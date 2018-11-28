@@ -17,7 +17,6 @@ function posix (file) {
 	return file;
 }
 
-/* istanbul ignore next */
 function wsl (file) {
 	if (!path.posix.isAbsolute(file) && path.win32.isAbsolute(file)) {
 		file = wslpath(file) || file;
@@ -27,7 +26,6 @@ function wsl (file) {
 	return file;
 }
 
-/* istanbul ignore next */
 function wslpath (file) {
 	let key = toNamespacedPath(file).toLowerCase();
 	if (!key.startsWith("\\\\?\\")) {
@@ -51,12 +49,9 @@ function wslpath (file) {
 if (process.platform === "win32") {
 	module.exports = win32;
 	gitWin = require("git-win");
+} else if (process.platform === "linux" && /\bMicrosoft\b/.test(os.release())) {
+	toNamespacedPath = path.win32.toNamespacedPath || path.win32._makeLong;
+	module.exports = wsl;
 } else {
-	/* istanbul ignore if */
-	if (process.platform === "linux" && /\bMicrosoft\b/.test(os.release())) {
-		toNamespacedPath = path.win32.toNamespacedPath || path.win32._makeLong;
-		module.exports = wsl;
-	} else {
-		module.exports = posix;
-	}
+	module.exports = posix;
 }
