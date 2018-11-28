@@ -4,22 +4,6 @@
     "url": "https://github.com/gucong3000/fs-posix/issues"
   },
   "description": "Add cross-platform path support for Node file system",
-  "devDependencies": {
-    "@babel/cli": "^7.1.5",
-    "@babel/core": "^7.1.6",
-    "@babel/preset-env": "^7.1.6",
-    "codecov": "^3.1.0",
-    "eclint": "^2.8.1",
-    "eslint": "^5.9.0",
-    "eslint-config-standard": "^12.0.0",
-    "eslint-plugin-import": "^2.14.0",
-    "eslint-plugin-node": "^8.0.0",
-    "eslint-plugin-promise": "^4.0.1",
-    "eslint-plugin-standard": "^4.0.0",
-    "fs-extra": "^7.0.1",
-    "mocha": "^5.2.0",
-    "nyc": "^13.1.0"
-  },
   "directories": {
     "test": "test"
   },
@@ -45,12 +29,28 @@
       "text"
     ]
   },
-  "optionalDependencies": {
-    "git-win": "^2.2.3"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/gucong3000/fs-posix.git"
+  },
+  "optionalDependencies": {
+    "git-win": "^2.2.4"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.1.5",
+    "@babel/core": "^7.1.6",
+    "@babel/preset-env": "^7.1.6",
+    "codecov": "^3.1.0",
+    "eclint": "^2.8.1",
+    "eslint": "^5.9.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-node": "^8.0.0",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "fs-extra": "^7.0.1",
+    "mocha": "^5.2.0",
+    "nyc": "^13.1.0"
   },
   "scripts": {
     "report-coverage": "codecov",

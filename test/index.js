@@ -37,9 +37,20 @@ describe("POSIX", () => {
 			assert.ok(await fs.readFile(file));
 			assert.ok(fs.statSync(file).isFile());
 			assert.ok((await fs.stat(file)).isFile());
-			const realPath = process.platform === "win32"
-				? path.join(drivers, file === "/etc/protocols" ? "etc/protocol" : file)
-				: file;
+			let realPath;
+			switch (process.platform) {
+				case "win32": {
+					realPath = path.join(drivers, file === "/etc/protocols" ? "etc/protocol" : file);
+					break;
+				}
+				case "darwin": {
+					realPath = "/private" + file;
+					break;
+				}
+				default: {
+					realPath = file;
+				}
+			}
 			assert.strictEqual(fs.realpathSync(file), realPath);
 			assert.strictEqual(await fs.realpath(file), realPath);
 			process.env = {};
@@ -48,17 +59,28 @@ describe("POSIX", () => {
 		});
 	});
 	[
+		"/etc/nanorc",
 		"/etc/profile",
-		"/etc/fstab",
 	].forEach(file => {
 		it(file, async () => {
 			assert.ok(fs.readFileSync(file));
 			assert.ok(await fs.readFile(file));
 			assert.ok(fs.statSync(file).isFile());
 			assert.ok((await fs.stat(file)).isFile());
-			const realPath = process.platform === "win32"
-				? path.join(gitWin.root, file)
-				: file;
+			let realPath;
+			switch (process.platform) {
+				case "win32": {
+					realPath = path.join(gitWin.root, file);
+					break;
+				}
+				case "darwin": {
+					realPath = "/private" + file;
+					break;
+				}
+				default: {
+					realPath = file;
+				}
+			}
 			assert.strictEqual(fs.realpathSync(file), realPath);
 			assert.strictEqual(await fs.realpath(file), realPath);
 		});
@@ -66,7 +88,7 @@ describe("POSIX", () => {
 
 	[
 		["~", os.homedir()],
-		["/tmp", os.tmpdir()],
+		["/tmp", process.platform === "darwin" ? "/private/tmp" : os.tmpdir()],
 	].forEach(([dir, realPath]) => {
 		it(dir, async () => {
 			assert.ok(fs.statSync(dir).isDirectory());

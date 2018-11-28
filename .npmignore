@@ -6,6 +6,7 @@
 .editorconfig
 .babelrc
 .eslintrc*
+.eslintignore
 .gitignore
 .grunt
 .lock-wscript
