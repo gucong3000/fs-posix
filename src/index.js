@@ -40,4 +40,5 @@ if (makeLong) {
 } else {
 	fix(path, "_makeLong");
 }
+fix(process, "chdir");
 module.exports = fs;

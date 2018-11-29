@@ -1,9 +1,7 @@
 "use strict";
-const cp = require("child_process");
 const path = require("path");
 const os = require("os");
-const cache = {};
-let toNamespacedPath;
+let wslpath;
 let gitWin;
 
 function win32 (file) {
@@ -18,40 +16,26 @@ function posix (file) {
 }
 
 function wsl (file) {
-	if (!path.posix.isAbsolute(file) && path.win32.isAbsolute(file)) {
-		file = wslpath(file) || file;
-	} else {
-		file = posix(file);
-	}
-	return file;
+	return wslpath(file) || posix(file);
 }
 
-function wslpath (file) {
-	let key = toNamespacedPath(file).toLowerCase();
-	if (!key.startsWith("\\\\?\\")) {
-		key = process.cwd() + key;
+switch (process.platform) {
+	case "win32": {
+		module.exports = win32;
+		gitWin = require("git-win");
+		require("./win32-resolve");
+		break;
 	}
-	if (key in cache) {
-		return cache[key];
+	case "linux": {
+		if (/\bMicrosoft\b/.test(os.release())) {
+			module.exports = wsl;
+			wslpath = require("./wslpath");
+			require("./wsl-resolve");
+			break;
+		}
 	}
-	let realPath;
-	try {
-		realPath = cp.spawnSync("wslpath", [file], {
-			encoding: "utf8",
-		}).stdout.trim();
-	} catch (ex) {
-		//
+	// eslint-disable-next-line no-fallthrough
+	default: {
+		module.exports = posix;
 	}
-	cache[key] = realPath;
-	return realPath;
-}
-
-if (process.platform === "win32") {
-	module.exports = win32;
-	gitWin = require("git-win");
-} else if (process.platform === "linux" && /\bMicrosoft\b/.test(os.release())) {
-	toNamespacedPath = path.win32.toNamespacedPath || path.win32._makeLong;
-	module.exports = wsl;
-} else {
-	module.exports = posix;
 }

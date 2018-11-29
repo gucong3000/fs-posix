@@ -4,13 +4,9 @@ const assert = require("assert");
 const path = require("path");
 const os = require("os");
 const fs = require("fs-extra");
-
-let gitWin;
-try {
-	gitWin = require("git-win");
-} catch (ex) {
-	//
-}
+const isWin32 = process.platform === "win32";
+const isWSL = process.platform === "linux" && /\bMicrosoft\b/.test(os.release());
+const gitWin = (isWin32 || isWSL) && require("git-win");
 
 describe("POSIX", () => {
 	let env;
@@ -21,44 +17,11 @@ describe("POSIX", () => {
 		process.env = env;
 	});
 
-	const drivers = path.join(
-		process.env.windir || process.env.SystemRoot || "C:/Windows",
-		"System32/drivers"
-	);
-
 	[
 		"/etc/hosts",
 		"/etc/networks",
 		"/etc/services",
 		"/etc/protocols",
-	].forEach(file => {
-		it(file, async () => {
-			assert.ok(fs.readFileSync(file));
-			assert.ok(await fs.readFile(file));
-			assert.ok(fs.statSync(file).isFile());
-			assert.ok((await fs.stat(file)).isFile());
-			let realPath;
-			switch (process.platform) {
-				case "win32": {
-					realPath = path.join(drivers, file === "/etc/protocols" ? "etc/protocol" : file);
-					break;
-				}
-				case "darwin": {
-					realPath = "/private" + file;
-					break;
-				}
-				default: {
-					realPath = file;
-				}
-			}
-			assert.strictEqual(fs.realpathSync(file), realPath);
-			assert.strictEqual(await fs.realpath(file), realPath);
-			process.env = {};
-			assert.strictEqual(fs.realpathSync(file), realPath);
-			assert.strictEqual(await fs.realpath(file), realPath);
-		});
-	});
-	[
 		"/etc/nanorc",
 		"/etc/profile",
 	].forEach(file => {
@@ -70,7 +33,7 @@ describe("POSIX", () => {
 			let realPath;
 			switch (process.platform) {
 				case "win32": {
-					realPath = path.join(gitWin.root, file);
+					realPath = gitWin.toWin32(file);
 					break;
 				}
 				case "darwin": {
@@ -83,6 +46,8 @@ describe("POSIX", () => {
 			}
 			assert.strictEqual(fs.realpathSync(file), realPath);
 			assert.strictEqual(await fs.realpath(file), realPath);
+			assert.strictEqual(path.resolve(file), isWin32 ? realPath : file);
+			assert.strictEqual(path.resolve("x:/", file), isWin32 ? realPath : file);
 		});
 	});
 
@@ -104,7 +69,7 @@ describe("POSIX", () => {
 	});
 });
 
-if (process.platform === "win32" || /\bMicrosoft\b/.test(os.release())) {
+if (isWin32 || isWSL) {
 	describe("WIN32 path", () => {
 		[
 			"C:\\Windows",
@@ -122,15 +87,16 @@ if (process.platform === "win32" || /\bMicrosoft\b/.test(os.release())) {
 				assert.ok(Array.isArray(fs.readdirSync(dir)));
 				assert.ok(Array.isArray(await fs.readdir(dir)));
 				let realPath = path.win32.resolve(dir);
-				if (process.platform !== "win32") {
+				if (isWSL) {
 					realPath = path.posix.resolve("/mnt", realPath[0].toLowerCase(), realPath.slice(3).replace(/\\/g, "/"));
 				}
 				assert.strictEqual(fs.realpathSync(dir), realPath);
 				assert.strictEqual(await fs.realpath(dir), realPath);
+				assert.strictEqual(path.resolve(dir), realPath);
 			});
 		});
 		it("\\", () => {
-			if (process.platform === "win32") {
+			if (isWin32) {
 				assert.ok(/^[A-Z]:\\$/i.test(fs.realpathSync("\\")));
 			} else {
 				assert.ok(/^\/mnt\/[a-z]$/.test(fs.realpathSync("\\")));
@@ -138,6 +104,60 @@ if (process.platform === "win32" || /\bMicrosoft\b/.test(os.release())) {
 		});
 	});
 }
+
+describe("path.resolve", () => {
+	it("/not_exist", () => {
+		if (isWin32) {
+			assert.strictEqual(path.resolve("/not_exist"), path.join(gitWin.root, "not_exist"));
+		} else {
+			assert.strictEqual(path.resolve("/not_exist"), "/not_exist");
+		}
+	});
+
+	it("C:, /not_exist", () => {
+		if (isWin32) {
+			assert.strictEqual(path.resolve("c:", "/not_exist"), "c:\\not_exist");
+		} else {
+			assert.strictEqual(path.resolve("c:", "/not_exist"), "/not_exist");
+		}
+	});
+
+	it("C:, /etc", () => {
+		if (isWin32) {
+			assert.strictEqual(path.resolve("c:", "/etc"), path.join(gitWin.root, "etc"));
+		} else {
+			assert.strictEqual(path.resolve("c:", "/etc"), "/etc");
+		}
+	});
+
+	it("C:, /tmp", () => {
+		if (isWin32) {
+			assert.strictEqual(path.resolve("c:", "/tmp"), os.tmpdir());
+		} else {
+			assert.strictEqual(path.resolve("c:", "/tmp"), "/tmp");
+		}
+	});
+
+	it("X:\\not_exist", () => {
+		if (isWin32) {
+			assert.strictEqual(path.resolve("X:\\not_exist"), "X:\\not_exist");
+		} else if (isWSL) {
+			assert.strictEqual(path.resolve("X:\\not_exist"), "/mnt/x/not_exist");
+		} else {
+			assert.strictEqual(path.resolve("X:\\not_exist"), path.join(process.cwd(), "X:\\not_exist"));
+		}
+	});
+
+	it("C:\\Windows", () => {
+		if (isWin32) {
+			assert.strictEqual(path.resolve("C:\\Windows"), "C:\\Windows");
+		} else if (isWSL) {
+			assert.strictEqual(path.resolve("C:\\Windows"), "/mnt/c/Windows");
+		} else {
+			assert.strictEqual(path.resolve("X:\\not_exist"), path.join(process.cwd(), "X:\\not_exist"));
+		}
+	});
+});
 
 describe("path-posix", () => {
 	const pathPosix = require("../src/path-posix");
@@ -148,6 +168,52 @@ describe("path-posix", () => {
 		it(strPath, async () => {
 			assert.strictEqual(path.resolve(pathPosix(strPath)), path.resolve(strPath));
 		});
+	});
+});
+
+describe("wslpath", () => {
+	let cwd;
+	let wslpath;
+
+	before(() => {
+		wslpath = require("../src/wslpath");
+		cwd = process.cwd;
+	});
+
+	afterEach(() => {
+		process.cwd = cwd;
+	});
+
+	it("cwd: /tmp", () => {
+		process.cwd = () => "/tmp";
+		assert.strictEqual(wslpath("\\Windows"), undefined);
+		if (!isWin32) {
+			assert.strictEqual(path.resolve("\\Windows"), "/tmp/\\Windows");
+		}
+	});
+
+	it("cwd: /mnt/sd_card", () => {
+		process.cwd = () => "/mnt/sd_card";
+		assert.strictEqual(wslpath("\\Windows"), undefined);
+		if (!isWin32) {
+			assert.strictEqual(path.resolve("\\Windows"), "/mnt/sd_card/\\Windows");
+		}
+	});
+
+	it("cwd: /mnt/x", () => {
+		process.cwd = () => "/mnt/x";
+		assert.strictEqual(wslpath("\\Windows"), "/mnt/x/Windows");
+		if (isWSL) {
+			assert.strictEqual(path.resolve("\\Windows"), "/mnt/x/Windows");
+		}
+	});
+
+	it("cwd: /mnt/x/test", () => {
+		process.cwd = () => "/mnt/x/test";
+		assert.strictEqual(wslpath("\\Windows"), "/mnt/x/Windows");
+		if (isWSL) {
+			assert.strictEqual(path.resolve("\\Windows"), "/mnt/x/Windows");
+		}
 	});
 });
 
